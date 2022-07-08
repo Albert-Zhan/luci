@@ -10,7 +10,7 @@ s = m:section(TypedSection, "turboacc", "")
 s.addremove = false
 s.anonymous = true
 
-if nixio.fs.access("/lib/modules/" .. kernel_version .. "/xt_FLOWOFFLOAD.ko") then
+if nixio.fs.access("/lib/modules/" .. kernel_version .. "/xt_FLOWOFFLOAD.ko") and not nixio.fs.access("/lib/modules/" .. kernel_version .. "/mtkhnat.ko") then
 sw_flow = s:option(Flag, "sw_flow", translate("Software flow offloading"))
 sw_flow.default = 0
 sw_flow.description = translate("Software based offloading for routing/NAT")
@@ -21,7 +21,7 @@ sw_flow:depends("sfe_flow", 0)
 end
 end
 
-if luci.sys.call("cat /etc/openwrt_release | grep -q mt762") == 0 then
+if luci.sys.call("cat /etc/openwrt_release | grep -q mt762") == 0 and not nixio.fs.access("/lib/modules/" .. kernel_version .. "/mtkhnat.ko") then
 hw_flow = s:option(Flag, "hw_flow", translate("Hardware flow offloading"))
 hw_flow.default = 0
 hw_flow.description = translate("Requires hardware NAT support. Implemented at least for mt762x")
@@ -51,13 +51,17 @@ fullcone_nat.default = 0
 fullcone_nat.description = translate("Using FullCone NAT can improve gaming performance effectively")
 end
 
+if nixio.fs.access("/usr/sbin/pdnsd") or nixio.fs.access("/usr/bin/dnsforwarder") or nixio.fs.access("/usr/bin/dnsproxy") then
 dns_caching = s:option(Flag, "dns_caching", translate("DNS Caching"))
 dns_caching.default = 0
 dns_caching.rmempty = false
 dns_caching.description = translate("Enable DNS Caching and anti ISP DNS pollution")
+end
 
 dns_caching_mode = s:option(ListValue, "dns_caching_mode", translate("Resolve DNS Mode"), translate("DNS Program"))
+if nixio.fs.access("/usr/sbin/pdnsd") then
 dns_caching_mode:value("1", translate("Using PDNSD to query and cache"))
+end
 if nixio.fs.access("/usr/bin/dnsforwarder") then
 dns_caching_mode:value("2", translate("Using DNSForwarder to query and cache"))
 end
