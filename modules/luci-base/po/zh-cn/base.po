@@ -1525,6 +1525,15 @@ msgstr "IPv6 后缀"
 msgid "IPv6-Address"
 msgstr "IPv6 地址"
 
+msgid "Remote IPv6 address"
+msgstr "远程 IPv6 地址"
+
+msgid "Encapsulation limit"
+msgstr "封装限制"
+
+msgid "When delegating prefixes to multiple downstreams, interfaces with a higher preference value are considered first when allocating subnets."
+msgstr "将前缀委派给多个下游时，在分配子网时，将首先考虑具有较高优先级值的接口。"
+
 msgid "IPv6-PD"
 msgstr "IPv6-PD"
 
@@ -4126,3 +4135,12 @@ msgstr "高性能模式"
 
 msgid "Target Platform"
 msgstr "目标平台"
+
+msgid "Beacon Interval"
+msgstr "Beacon间隔"
+
+msgid "Kick STA Threshold"
+msgstr "弱信号剔除阈值"
+
+msgid "STA Assoc Threshold"
+msgstr "弱信号接入阈值"
